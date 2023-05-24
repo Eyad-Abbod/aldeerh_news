@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../shared_ui"
+		},
+		{
+			"path": "../../admin"
+		},
+		{
+			"path": "../../auth"
+		},
+		{
+			"path": "../../utilities"
+		},
+		{
+			"path": ".."
+		}
+	]
+}
