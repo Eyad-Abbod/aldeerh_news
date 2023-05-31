@@ -81,18 +81,21 @@ class _SignUpState extends State<SignUp> {
               title: 'نجاح',
               desc: 'تم إرسال رقم التحقق',
               btnOkOnPress: () => Get.to(() => Check(
-                sms: vSms,
-                name: response["data"]["name"].toString(),
-                usid: response["data"]["usid"].toString(),
-                usph: response["data"]["usph"].toString(),
-                uspho: 'AlUyun.png',
-              )),
+                    sms: vSms,
+                    name: response["data"]["name"].toString(),
+                    usid: response["data"]["usid"].toString(),
+                    usph: response["data"]["usph"].toString(),
+                    uspho: 'AlUyun.png',
+                  )),
               btnOkColor: AppTheme.appTheme.primaryColor,
               btnOkText: 'Ok',
             ).show();
           }
         } else {
           if (mounted) {
+            setState(() {
+              isLoading = false;
+            });
             AwesomeDialog(
               context: context,
               animType: AnimType.TOPSLIDE,
@@ -202,7 +205,8 @@ class _SignUpState extends State<SignUp> {
                                               maxl: 1,
                                               myMaxlength: 10,
                                               valid: (val) {
-                                                return validInput(val!, 10, 10);
+                                                return validInputKSANumber(
+                                                    val!, 10, 10);
                                               },
                                               mycontroller: usph,
                                               hint: 'رقم الهاتف',

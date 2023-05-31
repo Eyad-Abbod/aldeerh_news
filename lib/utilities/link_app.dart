@@ -60,3 +60,4 @@ const String linkChangeImage = "$linkServerName/admin/change_image.php";
 const String linkAddImage = "$linkServerName/admin/add_image.php";
 const String linkDeleteMainImage =
     "$linkServerName/admin/delete_main_image.php";
+const String linkDeleteAccount = "$linkServerName/app/delete_account.php";

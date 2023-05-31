@@ -470,6 +470,7 @@ class _AppNavigationDrawerState extends State<AppNavigationDrawer> {
                                   sharedPref.clear();
                                   sharedPref.setString("shared_ID", last!);
                                   sharedPref.setString("uspho", '');
+                                  sharedPref.setBool("new_features", true);
                                   Get.offAll(() => const HomeScreen());
                                 },
                                 btnOkColor: Colors.red,

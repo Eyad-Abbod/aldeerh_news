@@ -11,7 +11,6 @@ import 'package:aldeerh_news/utilities/app_theme.dart';
 
 late SharedPreferences sharedPref;
 
-
 void main() async {
   timeago.setLocaleMessages('ar', timeago.ArMessages());
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,34 +76,34 @@ class _SplashScreenState extends State<SplashScreen> {
       title: 'علوم الديرة',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor: AppTheme.appTheme.primaryColor,
-        //   title: const Text("علوم الديرة"),
-        //   centerTitle: true,
-        // ),
+          // appBar: AppBar(
+          //   backgroundColor: AppTheme.appTheme.primaryColor,
+          //   title: const Text("علوم الديرة"),
+          //   centerTitle: true,
+          // ),
           body: SizedBox(
-            width: double.infinity,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(120.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Image(
-                        image: AssetImage("assets/home.png"),
-                      ),
-                      // const SizedBox(height: 5),
-                      SpinKitSpinningLines(
-                        color: AppTheme.appTheme.primaryColor,
-                        size: 50.0,
-                      )
-                    ],
+        width: double.infinity,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(120.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Image(
+                    image: AssetImage("assets/home.png"),
                   ),
-                ),
+                  // const SizedBox(height: 5),
+                  SpinKitSpinningLines(
+                    color: AppTheme.appTheme.primaryColor,
+                    size: 50.0,
+                  )
+                ],
               ),
             ),
-          )),
+          ),
+        ),
+      )),
     );
   }
 }

@@ -36,6 +36,24 @@ validInput(String val, int min, int max) {
   }
 }
 
+validInputKSANumber(String val, int min, int max) {
+  if (val.toString().substring(0, 2) != "05") {
+    return "رقم غير صحيح لابد أن يبدأ الرقم 05";
+  }
+  if (min == max && min != 10) {
+    return "لابد أن يتكون هذا الرقم من $min أرقام";
+  }
+  if (val.length > max && max != 0) {
+    return "لا يمكن أن يكون هذا الحقل أكبر من $max";
+  }
+  if (val.isEmpty) {
+    return "لا يمكن أن يكون هذا الحقل فارغ";
+  }
+  if (val.length < min) {
+    return "لا يمكن أن يكون هذا الحقل أصغر من $min";
+  }
+}
+
 validInputName(String val, int min, int max) {
   if (min == max && min != 10) {
     return "لابد أن يتكون هذا الرقم من $min أرقام";

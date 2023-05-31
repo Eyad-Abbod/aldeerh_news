@@ -190,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
   checkUpdate() async {
     try {
       var response =
-      await http.get(Uri.parse('$linkCheckUpdate?vir_cod=2.0.1'));
+          await http.get(Uri.parse('$linkCheckUpdate?vir_cod=2.0.1'));
       if (response.statusCode == 200) {
         var responsebody = jsonDecode(response.body);
 
@@ -200,23 +200,23 @@ class _HomeScreenState extends State<HomeScreen> {
             responsebody['data'][0]['state'] == '2') {
           if (mounted) {
             await AwesomeDialog(
-                context: context,
-                animType: AnimType.TOPSLIDE,
-                dialogType: DialogType.INFO,
-                // dialogColor: AppTheme.appTheme.primaryColor,
-                title: 'تحديث',
-                // desc: 'تأكد من توفر الإنترنت',
-                desc: 'يتوفر تحديث جديد للتطبيق',
-                btnOkOnPress: () {},
-                btnOkColor: Colors.red,
-                btnOkText: 'تجاهل',
-                btnCancelOnPress: () {
-                  StoreRedirect.redirect(
-                      androidAppId: "com.dreamsoft.byahmed.eyone",
-                      iOSAppId: "1546555989");
-                },
-                btnCancelColor: Colors.blue,
-                btnCancelText: 'تحديث')
+                    context: context,
+                    animType: AnimType.TOPSLIDE,
+                    dialogType: DialogType.INFO,
+                    // dialogColor: AppTheme.appTheme.primaryColor,
+                    title: 'تحديث',
+                    // desc: 'تأكد من توفر الإنترنت',
+                    desc: 'يتوفر تحديث جديد للتطبيق',
+                    btnOkOnPress: () {},
+                    btnOkColor: Colors.red,
+                    btnOkText: 'تجاهل',
+                    btnCancelOnPress: () {
+                      StoreRedirect.redirect(
+                          androidAppId: "com.dreamsoft.byahmed.eyone",
+                          iOSAppId: "1546555989");
+                    },
+                    btnCancelColor: Colors.blue,
+                    btnCancelText: 'تحديث')
                 .show();
           }
         } else if (responsebody['data'][0]['app_type'] == '1' &&
@@ -225,26 +225,9 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {
               needUpdate = true;
             });
-            // await AwesomeDialog(
-            //   context: context,
-            //   animType: AnimType.TOPSLIDE,
-            //   dialogType: DialogType.INFO,
-            //   // dialogColor: AppTheme.appTheme.primaryColor,
-            //   title: 'تحديث',
-            //   // desc: 'تأكد من توفر الإنترنت',
-            //   desc: 'يتوفر تحديث جديد للتطبيق',
-            //   btnOkOnPress: () {
-            //     StoreRedirect.redirect(
-            //         androidAppId: "com.dreamsoft.byahmed.eyone",
-            //         iOSAppId: "1546555989");
-            //   },
-            //   btnOkColor: Colors.blue,
-            //   btnOkText: 'تحديث',
-            // ).show();
-            // StoreRedirect.redirect(
-            //     androidAppId: "com.dreamsoft.byahmed.eyone",
-            //     iOSAppId: "1546555989");
           }
+        } else if (sharedPref.getBool("new_features") == null) {
+          _showAlertDialog();
         }
       }
     } catch (e) {
@@ -252,6 +235,176 @@ class _HomeScreenState extends State<HomeScreen> {
         debugPrint('Failed to pick image: $e');
       }
     }
+  }
+
+  void _showAlertDialog() {
+    // Create the AlertDialog
+    showDialog(
+        context: context,
+        builder: (context) => Center(
+              child: SingleChildScrollView(
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return AlertDialog(
+                      backgroundColor: Colors.grey.shade900,
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'التغيرات الجديدة',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          Divider(color: Colors.white70),
+                        ],
+                      ),
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          SizedBox(height: 10),
+                          Text.rich(TextSpan(
+                            style: TextStyle(
+                              color: Colors.greenAccent,
+                            ),
+                            text: '- إضافة',
+                            children: [
+                              TextSpan(
+                                  text: ' خاصية الردود والتعليقات.',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          )),
+                          Text.rich(TextSpan(
+                            style: TextStyle(
+                              color: Colors.greenAccent,
+                            ),
+                            text: '- إضافة',
+                            children: [
+                              TextSpan(
+                                  text: ' رمز التوثيق لتمييز الحسابات الرسمية.',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          )),
+                          Text.rich(TextSpan(
+                            style: TextStyle(
+                              color: Colors.greenAccent,
+                            ),
+                            text: '- إضافة',
+                            children: [
+                              TextSpan(
+                                  text: ' صورة شخصية للمستخدمين المسجلين.',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          )),
+                          Text.rich(TextSpan(
+                            style: TextStyle(
+                              color: Colors.greenAccent,
+                            ),
+                            text: '- إضافة',
+                            children: [
+                              TextSpan(
+                                  text:
+                                      ' إمكانية التنقل بين الصور داخل الأخبار بالسحب.',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          )),
+                          Text.rich(TextSpan(
+                            style: TextStyle(
+                              color: Colors.greenAccent,
+                            ),
+                            text: '- إضافة',
+                            children: [
+                              TextSpan(
+                                  text: ' نغمة خاصة لإشعارات التطبيق.',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          )),
+                          Text.rich(TextSpan(
+                            style: TextStyle(
+                              color: Colors.greenAccent,
+                            ),
+                            text: '- إضافة',
+                            children: [
+                              TextSpan(
+                                  text:
+                                      ' خاصية الانتقال للخبر مباشرة عند الضغط على الإشعار',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          )),
+                          Text.rich(TextSpan(
+                            style: TextStyle(
+                              color: Colors.greenAccent,
+                            ),
+                            text: '- إضافة',
+                            children: [
+                              TextSpan(
+                                  text:
+                                      ' أقسام جديدة (شخصيات، خواطر ومشاركات، أسر منتجة).',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          )),
+                          Text.rich(TextSpan(
+                            style: TextStyle(
+                              color: Colors.lightBlueAccent,
+                            ),
+                            text: '- إعادة',
+                            children: [
+                              TextSpan(
+                                  text: ' تفعيل الإشعارات.',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          )),
+                          Text.rich(TextSpan(
+                            style: TextStyle(
+                              color: Colors.lightBlueAccent,
+                            ),
+                            text: '- إعادة',
+                            children: [
+                              TextSpan(
+                                  text: ' تفعيل رسائل رمز التحقق.',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          )),
+                          Text.rich(TextSpan(
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                            text: '- تصحيح',
+                            children: [
+                              TextSpan(
+                                  text: ' عدد المشاهدات للخبر.',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          )),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            sharedPref.setBool("new_features", true);
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'عدم الإظهار مرة أخرى',
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'حسناً',
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ));
   }
 
   visitApp() async {
@@ -289,151 +442,151 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return needUpdate == true
         ? Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: AppTheme.appTheme.primaryColor,
-        title: const Text("علوم الديرة"),
-      ),
-      body: Stack(
-        children: [
-          const HomeNews(),
-          GestureDetector(
-            onTap: () => StoreRedirect.redirect(
-                androidAppId: "com.dreamsoft.byahmed.eyone",
-                iOSAppId: "1546555989"),
-            child: Container(
-                color: Colors.white60,
-                width: double.infinity,
-                height: double.infinity,
-                child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.error_outline,
-                            color: Colors.red, size: 80),
-                        Text(
-                          'لابد من تحديث التطبيق',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.appTheme.primaryColor,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: FloatingActionButton.extended(
-                            label: const Text('تحديث التطبيق'), // <-- Text
-                            backgroundColor: AppTheme.appTheme.primaryColor,
-                            icon: const Icon(
-                              // <-- Icon
-                              Icons.download,
-                              size: 24.0,
+            appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: AppTheme.appTheme.primaryColor,
+              title: const Text("علوم الديرة"),
+            ),
+            body: Stack(
+              children: [
+                const HomeNews(),
+                GestureDetector(
+                  onTap: () => StoreRedirect.redirect(
+                      androidAppId: "com.dreamsoft.byahmed.eyone",
+                      iOSAppId: "1546555989"),
+                  child: Container(
+                      color: Colors.white60,
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.error_outline,
+                              color: Colors.red, size: 80),
+                          Text(
+                            'لابد من تحديث التطبيق',
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.appTheme.primaryColor,
                             ),
-                            onPressed: () => StoreRedirect.redirect(
-                                androidAppId: "com.dreamsoft.byahmed.eyone",
-                                iOSAppId: "1546555989"),
                           ),
-                        ),
-                      ],
-                    ))),
-          ),
-        ],
-      ),
-    )
-        : Scaffold(
-      body: screens[index],
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: AppTheme.appTheme.primaryColor,
-        title: const Text("علوم الديرة"),
-        actions: <Widget>[
-          visiter == 0
-              ? const Center(
-            child: Text(
-              'الزوار اليوم !',
-              style: TextStyle(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FloatingActionButton.extended(
+                              label: const Text('تحديث التطبيق'), // <-- Text
+                              backgroundColor: AppTheme.appTheme.primaryColor,
+                              icon: const Icon(
+                                // <-- Icon
+                                Icons.download,
+                                size: 24.0,
+                              ),
+                              onPressed: () => StoreRedirect.redirect(
+                                  androidAppId: "com.dreamsoft.byahmed.eyone",
+                                  iOSAppId: "1546555989"),
+                            ),
+                          ),
+                        ],
+                      ))),
+                ),
+              ],
             ),
           )
-              : Center(child: Text('الزوار اليوم $visiter')),
-          IconButton(
-            onPressed: () {
-              // showSearch(context: context, delegate: SearchUser());
-              Get.to(() => const SearchNews(
-                isAdmin: 0,
-              ));
-            },
-            icon: const Icon(Icons.search_sharp),
-          ),
-        ],
-      ),
-      drawer: const AppNavigationDrawer(),
-      bottomNavigationBar: NavigationBarTheme(
-        data: const NavigationBarThemeData(
-          indicatorColor: Colors.white,
-          // labelTextStyle: MaterialStateProperty.all(
-          //   TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-          // ),
-        ),
-        child: NavigationBar(
-          height: 60,
-          // animationDuration: Duration(seconds: 1),
-          backgroundColor: Colors.white54,
-          // backgroundColor: AppTheme.appTheme.primaryColor,
-          selectedIndex: index,
-          onDestinationSelected: (index) =>
-              setState(() => this.index = index),
-          destinations: [
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.portrait_outlined,
-                color: AppTheme.appTheme.primaryColor,
-                size: 30,
-              ),
-              icon: const Icon(
-                Icons.portrait,
-                color: Colors.grey,
-              ),
-              label: 'الأخبار',
+        : Scaffold(
+            body: screens[index],
+            appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: AppTheme.appTheme.primaryColor,
+              title: const Text("علوم الديرة"),
+              actions: <Widget>[
+                visiter == 0
+                    ? const Center(
+                        child: Text(
+                          'الزوار اليوم !',
+                          style: TextStyle(),
+                        ),
+                      )
+                    : Center(child: Text('الزوار اليوم $visiter')),
+                IconButton(
+                  onPressed: () {
+                    // showSearch(context: context, delegate: SearchUser());
+                    Get.to(() => const SearchNews(
+                          isAdmin: 0,
+                        ));
+                  },
+                  icon: const Icon(Icons.search_sharp),
+                ),
+              ],
             ),
-            NavigationDestination(
-              icon: const Icon(
-                Icons.people_alt_outlined,
-                color: Colors.grey,
+            drawer: const AppNavigationDrawer(),
+            bottomNavigationBar: NavigationBarTheme(
+              data: const NavigationBarThemeData(
+                indicatorColor: Colors.white,
+                // labelTextStyle: MaterialStateProperty.all(
+                //   TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                // ),
               ),
-              selectedIcon: Icon(
-                Icons.people_alt,
-                color: AppTheme.appTheme.primaryColor,
-                size: 30,
+              child: NavigationBar(
+                height: 60,
+                // animationDuration: Duration(seconds: 1),
+                backgroundColor: Colors.white54,
+                // backgroundColor: AppTheme.appTheme.primaryColor,
+                selectedIndex: index,
+                onDestinationSelected: (index) =>
+                    setState(() => this.index = index),
+                destinations: [
+                  NavigationDestination(
+                    selectedIcon: Icon(
+                      Icons.portrait_outlined,
+                      color: AppTheme.appTheme.primaryColor,
+                      size: 30,
+                    ),
+                    icon: const Icon(
+                      Icons.portrait,
+                      color: Colors.grey,
+                    ),
+                    label: 'الأخبار',
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(
+                      Icons.people_alt_outlined,
+                      color: Colors.grey,
+                    ),
+                    selectedIcon: Icon(
+                      Icons.people_alt,
+                      color: AppTheme.appTheme.primaryColor,
+                      size: 30,
+                    ),
+                    label: 'شخصيات',
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(
+                      Icons.border_color_outlined,
+                      color: Colors.grey,
+                    ),
+                    selectedIcon: Icon(
+                      Icons.border_color,
+                      color: AppTheme.appTheme.primaryColor,
+                      size: 30,
+                    ),
+                    label: 'خواطر ومشاركات',
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(
+                      Icons.family_restroom,
+                      color: Colors.grey,
+                    ),
+                    selectedIcon: Icon(
+                      Icons.family_restroom_outlined,
+                      color: AppTheme.appTheme.primaryColor,
+                      size: 30,
+                    ),
+                    label: 'أسر منتجة',
+                  ),
+                ],
               ),
-              label: 'شخصيات',
             ),
-            NavigationDestination(
-              icon: const Icon(
-                Icons.border_color_outlined,
-                color: Colors.grey,
-              ),
-              selectedIcon: Icon(
-                Icons.border_color,
-                color: AppTheme.appTheme.primaryColor,
-                size: 30,
-              ),
-              label: 'خواطر ومشاركات',
-            ),
-            NavigationDestination(
-              icon: const Icon(
-                Icons.family_restroom,
-                color: Colors.grey,
-              ),
-              selectedIcon: Icon(
-                Icons.family_restroom_outlined,
-                color: AppTheme.appTheme.primaryColor,
-                size: 30,
-              ),
-              label: 'أسر منتجة',
-            ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }

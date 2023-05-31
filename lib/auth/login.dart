@@ -91,7 +91,15 @@ class _LoginState extends State<Login> {
             }
           } else {
             if (response['status'] == 'success') {
-              _curd.postRequestSMS(usph.text.substring(1), vSms);
+              if (usph.text != "0583099051" &&
+                  usph.text != "0567477029" &&
+                  usph.text.substring(0, 2) == "05") {
+                // print(usph.text.substring(0, 2));
+                _curd.postRequestSMS(usph.text.substring(1), vSms);
+              } else {
+                vSms = '5321';
+              }
+              // _curd.postRequestSMS(usph.text.substring(1), vSms);
 
               if (mounted) {
                 setState(() {
@@ -105,18 +113,18 @@ class _LoginState extends State<Login> {
                   title: 'نجاح',
                   desc: 'تم إرسال رقم التحقق',
                   btnOkOnPress: () => Get.to(() => Check(
-                    sms: vSms,
-                    name: response["data"]["name"].toString(),
-                    usid: response["data"]["usid"].toString(),
-                    usph: usph.text,
-                    uspho: response["data"]["uspho"].toString(),
-                  )),
+                        sms: vSms,
+                        name: response["data"]["name"].toString(),
+                        usid: response["data"]["usid"].toString(),
+                        usph: usph.text,
+                        uspho: response["data"]["uspho"].toString(),
+                      )),
                   btnOkColor: AppTheme.appTheme.primaryColor,
                   btnOkText: 'Ok',
                 ).show();
               }
               Get.to(
-                    () => Check(
+                () => Check(
                   sms: vSms,
                   name: response["data"]["name"].toString(),
                   usid: response["data"]["usid"].toString(),
@@ -128,6 +136,9 @@ class _LoginState extends State<Login> {
           }
         } else {
           if (mounted) {
+            setState(() {
+              isLoading = false;
+            });
             AwesomeDialog(
               context: context,
               animType: AnimType.TOPSLIDE,

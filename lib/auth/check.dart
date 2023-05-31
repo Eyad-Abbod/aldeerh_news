@@ -84,6 +84,7 @@ class _CheckState extends State<Check> {
         sharedPref.setString("usid", widget.usid);
         sharedPref.setString("name", widget.name);
         sharedPref.setString("uspho", widget.uspho);
+        sharedPref.setString("usph", widget.usph);
         if (mounted) {
           await AwesomeDialog(
             context: context,

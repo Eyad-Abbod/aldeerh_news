@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:aldeerh_news/main.dart';
+import 'package:aldeerh_news/screens/home_screen.dart';
 import 'package:aldeerh_news/shared_ui/customtextfield.dart';
 import 'package:aldeerh_news/utilities/crud.dart';
 import 'package:aldeerh_news/utilities/app_theme.dart';
@@ -31,6 +32,7 @@ class PersonalPage extends StatefulWidget {
 class _AddNewsState extends State<PersonalPage> {
   bool canSendNews = true;
   bool isLoading = false;
+  String? last;
 
   @override
   void initState() {
@@ -463,7 +465,133 @@ class _AddNewsState extends State<PersonalPage> {
                                         color: Colors.white)),
                               )
                       ],
-                    )
+                    ),
+                    const SizedBox(height: 20),
+                    // sharedPref.getString("usid") == '774'
+                    sharedPref.getString("usph").toString().substring(0, 2) ==
+                            '09'
+                        ? ElevatedButton(
+                            onPressed: () => AwesomeDialog(
+                              context: context,
+                              animType: AnimType.TOPSLIDE,
+                              dialogType: DialogType.INFO,
+                              // dialogColor: AppTheme.appTheme.primaryColor,
+                              title: 'تحذير',
+                              desc: 'هل أنت متأكد من رغبتك بحذف الحساب؟ ',
+                              btnOkColor: Colors.red,
+                              btnOkText: 'حذف',
+                              btnCancelText: 'إلغاء',
+                              btnCancelOnPress: () {},
+                              btnCancelColor: Colors.blue,
+                              btnOkOnPress: () async {
+                                isLoading = true;
+                                if (mounted) {
+                                  setState(() {});
+                                }
+                                var response =
+                                    await _curd.postRequest(linkDeleteAccount, {
+                                  "usid": sharedPref.getString("usid"),
+                                });
+                                isLoading = false;
+                                if (mounted) {
+                                  setState(() {});
+                                }
+                                if (response == 'Error') {
+                                  if (mounted) {
+                                    AwesomeDialog(
+                                      context: context,
+                                      animType: AnimType.TOPSLIDE,
+                                      dialogType: DialogType.ERROR,
+                                      // dialogColor: AppTheme.appTheme.primaryColor,
+                                      title: 'خطأ',
+                                      desc: 'تأكد من توفر الإنترنت',
+                                      btnOkOnPress: () {
+                                        // Get.offAll(() => HomeNews);
+                                      },
+                                      btnOkColor: Colors.blue,
+                                      btnOkText: 'خروج',
+                                      // btnCancelOnPress: () {},
+                                      // btnCancelColor: AppTheme.appTheme.primaryColor,
+                                      // btnCancelText: 'مراسلة الإدارة'
+                                    ).show();
+                                  }
+                                } else {
+                                  if (response['status'] == 'success') {
+                                    if (mounted) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      await AwesomeDialog(
+                                        context: context,
+                                        animType: AnimType.TOPSLIDE,
+                                        dialogType: DialogType.SUCCES,
+                                        // dialogColor: AppTheme.appTheme.primaryColor,
+                                        title: 'نجاح',
+                                        desc: 'تمت عملية الحذف بنجاح',
+                                        btnCancelOnPress: () {
+                                          setState(() {
+                                            last = sharedPref
+                                                .getString('shared_ID');
+                                            sharedPref.clear();
+
+                                            sharedPref.setString(
+                                                "shared_ID", last!);
+                                            sharedPref.setString("uspho", '');
+                                            sharedPref.setBool(
+                                                "new_features", true);
+                                            Get.offAll(
+                                                () => const HomeScreen());
+                                          });
+                                        },
+                                        btnCancelColor: Colors.blue,
+                                        btnCancelText: 'خروج',
+                                        // btnCancelOnPress: () {},
+                                        // btnCancelColor: AppTheme.appTheme.primaryColor,
+                                        // btnCancelText: 'مراسلة الإدارة'
+                                      ).show();
+
+                                      setState(() {
+                                        last =
+                                            sharedPref.getString('shared_ID');
+                                        sharedPref.clear();
+
+                                        sharedPref.setString(
+                                            "shared_ID", last!);
+                                        sharedPref.setString("uspho", '');
+                                        sharedPref.setBool(
+                                            "new_features", true);
+                                        Get.offAll(() => const HomeScreen());
+                                      });
+                                    }
+                                  } else {
+                                    if (mounted) {
+                                      setState(() {});
+
+                                      AwesomeDialog(
+                                        context: context,
+                                        animType: AnimType.TOPSLIDE,
+                                        dialogType: DialogType.ERROR,
+                                        title: 'خطأ',
+                                        desc: 'تأكد من توفر الإنترنت',
+                                      ).show();
+                                    }
+                                  }
+                                }
+                              },
+                            ).show(),
+                            style: OutlinedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 50),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                            child: const Text('حذف الحساب',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    letterSpacing: 2,
+                                    color: Colors.white)),
+                          )
+                        : const SizedBox(height: 1),
                   ],
                 ),
               ),
